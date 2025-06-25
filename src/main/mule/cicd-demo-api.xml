@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns:http="http://www.mulesoft.org/schema/mule/http"
+	xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
+	<http:listener-config name="HTTP_Listener_config" doc:name="HTTP Listener config" doc:id="60ca2aad-a334-4949-ab0e-f82a58f830bf" >
+		<http:listener-connection host="0.0.0.0" port="8081" />
+	</http:listener-config>
+	<flow name="cicd-demo-apiFlow" doc:id="a4360eef-ef1d-4c06-9985-baedab16a460" >
+		<http:listener doc:name="Listener" doc:id="3b3e3c4f-8907-4082-bc53-9e26bc74008e" config-ref="HTTP_Listener_config" path="/path"/>
+		<logger level="INFO" doc:name="Logger" doc:id="859ae5df-33bb-45c4-8e42-d7b2eeb6c3bd" message="------Flow Started------"/>
+		<ee:transform doc:name="Transform Message" doc:id="1922ef83-032f-4daa-a4e0-5e4314e55db0" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/java
+---
+{
+	"Message" : "Welcome to CI-CID Deployment"
+}]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+		<logger level="INFO" doc:name="Logger" doc:id="c9dcab91-710e-487e-9192-72fe97c13607" message="-----Flow Ended-----"/>
+	</flow>
+</mule>
